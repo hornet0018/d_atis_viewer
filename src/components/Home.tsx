@@ -5,6 +5,19 @@ import { useState, useEffect } from "react";
 
 const API_BASE_URL = "https://d-atis-api.kenta-722-768.workers.dev";
 
+function formatJST(utcTimestamp: string): string {
+  const date = new Date(utcTimestamp);
+  return date.toLocaleString("ja-JP", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  });
+}
+
 function parseAtisRaw(raw: string): { type: string; code: string; letter: string; time: string; content: string[] } {
   const lines = raw.split("\n");
   const result: { type: string; code: string; letter: string; time: string; content: string[] } = {
@@ -156,7 +169,8 @@ export default function Home() {
                       </span>
                     )}
                   </div>
-                  <p className="text-sm text-slate-400 mb-4">{data.arrival_atis.timestamp}</p>
+                  <p className="text-sm text-slate-400 mb-1">{data.arrival_atis.timestamp}</p>
+                  <p className="text-xs text-slate-500 mb-4">JST: {formatJST(data.arrival_atis.timestamp)}</p>
                   <pre className="bg-slate-900/50 rounded p-4 text-sm text-green-300 overflow-x-auto whitespace-pre-wrap font-mono">
                     {data.arrival_atis.raw}
                   </pre>
@@ -177,7 +191,8 @@ export default function Home() {
                       </span>
                     )}
                   </div>
-                  <p className="text-sm text-slate-400 mb-4">{data.departure_atis.timestamp}</p>
+                  <p className="text-sm text-slate-400 mb-1">{data.departure_atis.timestamp}</p>
+                  <p className="text-xs text-slate-500 mb-4">JST: {formatJST(data.departure_atis.timestamp)}</p>
                   <pre className="bg-slate-900/50 rounded p-4 text-sm text-blue-300 overflow-x-auto whitespace-pre-wrap font-mono">
                     {data.departure_atis.raw}
                   </pre>
