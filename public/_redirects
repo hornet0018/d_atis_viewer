@@ -1,3 +1,0 @@
-# SPA routing - explicitly exclude index.html to prevent loop
-/index.html /index.html 200
-/* /index.html 200
