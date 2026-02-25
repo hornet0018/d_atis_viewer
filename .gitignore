@@ -1,5 +1,6 @@
 # Dependencies
 node_modules/
+# Keep package-lock.json for Cloudflare Pages deployment
 
 # Build outputs
 dist/
