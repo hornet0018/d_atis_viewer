@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git ls-tree -r origin/develop --name-only)",
+      "Bash(git add wrangler.toml)",
+      "Bash(git commit -m \"Add assets directory to wrangler.toml for Pages deployment\")",
+      "Bash(git push)"
+    ]
+  }
+}
