@@ -1,3 +1,2 @@
 # SPA routing - redirect all non-file requests to index.html
-# Use 404 fallback to prevent infinite loops
-/* /index.html 404
+/* /index.html 200
