@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+# Keep package-lock.json for Cloudflare Pages deployment
+
+# Build outputs
+dist/
+build/
+
+# Environment & secrets
+.env
+.env.*
+*.pem
+
+# Cache & temporary files
+.wrangler/
+.react-router/
+*.tsbuildinfo
+*.log
+
+# Editor & IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Testing (for future use)
+coverage/
+.nyc_output/
