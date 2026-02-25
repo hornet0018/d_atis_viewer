@@ -4,7 +4,8 @@
       "Bash(git ls-tree -r origin/develop --name-only)",
       "Bash(git add wrangler.toml)",
       "Bash(git commit -m \"Add assets directory to wrangler.toml for Pages deployment\")",
-      "Bash(git push)"
+      "Bash(git push)",
+      "Bash(git commit -m \"Configure wrangler.toml for Cloudflare Pages only \\(remove Workers assets config\\)\")"
     ]
   }
 }
