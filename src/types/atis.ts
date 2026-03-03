@@ -20,6 +20,9 @@ export const AIRPORTS: Record<string, string> = {
   RJOO: "Osaka Itami",
   RJFF: "Fukuoka",
   RJFK: "Kagoshima",
+  RJCC: "Sapporo New Chitose",
+  RJCH: "Hakodate",
+  RJCK: "Kushiro",
 } as const;
 
 export type AirportCode = keyof typeof AIRPORTS;
