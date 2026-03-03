@@ -155,6 +155,52 @@ export const AIRPORT_COORDINATES: Record<string, AirportCoordinates> = {
       },
     ],
   },
+  RJCC: {
+    name: "Sapporo New Chitose",
+    position: [42.7753, 141.6925],
+    runways: [
+      // Runway 01L/19R - 3000m
+      // endpoint1: south end (01L), endpoint2: north end (19R)
+      {
+        name: "01L/19R",
+        endpoint1: [42.761727, 141.692813],
+        endpoint2: [42.788390, 141.688093],
+      },
+      // Runway 01R/19L - 3000m
+      // endpoint1: south end (01R), endpoint2: north end (19L)
+      {
+        name: "01R/19L",
+        endpoint1: [42.762036, 141.696436],
+        endpoint2: [42.788720, 141.691733],
+      },
+    ],
+  },
+  RJCH: {
+    name: "Hakodate",
+    position: [41.772, 140.792],
+    runways: [
+      // Runway 12/30 - 2000m
+      // endpoint1: west end (12), endpoint2: east end (30)
+      {
+        name: "12/30",
+        endpoint1: [41.7720000, 140.7799324],
+        endpoint2: [41.7720000, 140.8040676],
+      },
+    ],
+  },
+  RJCK: {
+    name: "Kushiro",
+    position: [43.0408, 144.1931],
+    runways: [
+      // Runway 17/35 - 2500m
+      // endpoint1: south end (35), endpoint2: north end (17)
+      {
+        name: "17/35",
+        endpoint1: [43.0295500, 144.1931000],
+        endpoint2: [43.0520500, 144.1931000],
+      },
+    ],
+  },
 };
 
 // Get runways for an airport
