@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s \"https://www.openstreetmap.org/api/0.6/node/8066685738\")",
+      "Bash(curl -s \"https://www.openstreetmap.org/api/0.6/node/4994278561\")"
+    ]
+  }
+}

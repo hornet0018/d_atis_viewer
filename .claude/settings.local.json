@@ -5,7 +5,11 @@
       "Bash(git add wrangler.toml)",
       "Bash(git commit -m \"Add assets directory to wrangler.toml for Pages deployment\")",
       "Bash(git push)",
-      "Bash(git commit -m \"Configure wrangler.toml for Cloudflare Pages only \\(remove Workers assets config\\)\")"
+      "Bash(git commit -m \"Configure wrangler.toml for Cloudflare Pages only \\(remove Workers assets config\\)\")",
+      "Bash(npm run build)",
+      "Bash(git add src/components/Home.tsx)",
+      "Bash(git commit -m \"Add JST display below UTC timestamp for ATIS\")",
+      "Bash(npm install leaflet react-leaflet @types/leaflet)"
     ]
   }
 }
