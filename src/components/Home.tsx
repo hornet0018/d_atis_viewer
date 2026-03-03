@@ -2,6 +2,9 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import type { AtisData } from "../types/atis";
 import { AIRPORTS, type AirportCode } from "../types/atis";
 import { useState, useEffect } from "react";
+import AirportMap from "./AirportMap";
+import { parseRunwaysFromAtis } from "../utils/runwayParser";
+import "leaflet/dist/leaflet.css";
 
 const API_BASE_URL = "https://d-atis-api.kenta-722-768.workers.dev";
 
@@ -87,6 +90,27 @@ export default function Home() {
   const parsedArrival = data?.arrival_atis?.raw ? parseAtisRaw(data.arrival_atis.raw) : null;
   const parsedDeparture = data?.departure_atis?.raw ? parseAtisRaw(data.departure_atis.raw) : null;
 
+  // Extract active runways from ATIS data
+  const [activeRunways, setActiveRunways] = useState<string[]>([]);
+
+  useEffect(() => {
+    const runways: string[] = [];
+
+    if (data?.arrival_atis?.raw) {
+      const arrivalInfo = parseRunwaysFromAtis(data.arrival_atis.raw);
+      runways.push(...(arrivalInfo.arrivalRunways || []));
+      runways.push(...(arrivalInfo.landingRunways || []));
+    }
+
+    if (data?.departure_atis?.raw) {
+      const depInfo = parseRunwaysFromAtis(data.departure_atis.raw);
+      runways.push(...(depInfo.departureRunways || []));
+    }
+
+    // Remove duplicates
+    setActiveRunways([...new Set(runways)]);
+  }, [data]);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       <div className="container mx-auto px-4 py-8">
@@ -155,6 +179,11 @@ export default function Home() {
 
             {/* ATIS Cards */}
             <div className="grid md:grid-cols-2 gap-6">
+              {/* Airport Map */}
+              <div className="md:col-span-2">
+                <AirportMap airportCode={data.airport} activeRunways={activeRunways} />
+              </div>
+
               {/* Arrival ATIS */}
               {data.arrival_atis && (
                 <div className="bg-slate-800/50 rounded-lg p-6 border border-slate-700">
