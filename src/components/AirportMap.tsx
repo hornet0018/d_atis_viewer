@@ -4,6 +4,7 @@ import L from "leaflet";
 import type { RunwayCoordinates } from "../data/runways";
 import { AIRPORT_COORDINATES } from "../data/runways";
 import { AIRPORTS } from "../types/atis";
+import type { ParsedWind } from "../utils/windParser";
 
 // Fix for default markers in react-leaflet
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -16,6 +17,7 @@ L.Icon.Default.mergeOptions({
 interface AirportMapProps {
   airportCode: string;
   activeRunways?: string[]; // Active runway designations (e.g., ["16L", "16R"])
+  windData?: ParsedWind | null; // Wind data from ATIS
 }
 
 // Component to update map view when airport changes
@@ -261,7 +263,7 @@ function Runway({
 /**
  * Main Airport Map component
  */
-export default function AirportMap({ airportCode, activeRunways = [] }: AirportMapProps) {
+export default function AirportMap({ airportCode, activeRunways = [], windData }: AirportMapProps) {
   const airportData = AIRPORT_COORDINATES[airportCode];
 
   console.log("AirportMap - airportCode:", airportCode);
@@ -287,6 +289,57 @@ export default function AirportMap({ airportCode, activeRunways = [] }: AirportM
               : "No active runway data from ATIS"}
           </p>
         </div>
+        {windData && (
+          <div className="flex items-center gap-3">
+            {/* Wind arrow icon */}
+            <div className="relative w-10 h-10 flex items-center justify-center">
+              <svg
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                style={{
+                  transform: `rotate(${windData.direction !== undefined ? (windData.direction - 180) % 360 : 0}deg)`,
+                  transition: 'transform 0.3s ease',
+                }}
+              >
+                {/* Arrow pointing in the direction the wind is going TO */}
+                <path
+                  d="M12 2L15 9H9L12 2Z"
+                  fill="#ef4444"
+                  stroke="#ffffff"
+                  strokeWidth="1"
+                />
+                {/* Arrow shaft */}
+                <rect
+                  x="11"
+                  y="9"
+                  width="2"
+                  height="10"
+                  fill="#ef4444"
+                  stroke="#ffffff"
+                  strokeWidth="1"
+                />
+              </svg>
+            </div>
+            {/* Wind info text */}
+            <div className="text-right">
+              <p className="text-xs text-slate-400">Wind</p>
+              <p className="text-white font-mono text-sm">
+                {windData.variable ? (
+                  <>VRB</>
+                ) : windData.direction !== undefined ? (
+                  <>{windData.direction}°</>
+                ) : (
+                  <>---°</>
+                )}{" "}
+                {windData.speed !== undefined ? <>{windData.speed}kt</> : <>--kt</>}
+                {windData.gust && <>/G{windData.gust}</>}
+              </p>
+            </div>
+          </div>
+        )}
       </div>
       <div style={{ height: "400px" }}>
         <MapContainer
