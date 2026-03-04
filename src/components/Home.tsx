@@ -4,6 +4,7 @@ import { AIRPORTS, type AirportCode } from "../types/atis";
 import { useState, useEffect } from "react";
 import AirportMap from "./AirportMap";
 import { parseRunwaysFromAtis } from "../utils/runwayParser";
+import { extractWindFromAtis, type ParsedWind } from "../utils/windParser";
 import "leaflet/dist/leaflet.css";
 
 const API_BASE_URL = "https://d-atis-api.kenta-722-768.workers.dev";
@@ -111,6 +112,21 @@ export default function Home() {
     setActiveRunways([...new Set(runways)]);
   }, [data]);
 
+  // Extract wind from ATIS data
+  const [windData, setWindData] = useState<ParsedWind | null>(null);
+
+  useEffect(() => {
+    // Try to get wind from arrival ATIS first, then departure ATIS
+    const arrivalWind = data?.arrival_atis?.raw
+      ? extractWindFromAtis(data.arrival_atis.raw)
+      : null;
+    const departureWind = data?.departure_atis?.raw
+      ? extractWindFromAtis(data.departure_atis.raw)
+      : null;
+
+    setWindData(arrivalWind || departureWind || null);
+  }, [data]);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       <div className="container mx-auto px-4 py-8">
@@ -181,7 +197,7 @@ export default function Home() {
             <div className="grid md:grid-cols-2 gap-6">
               {/* Airport Map */}
               <div className="md:col-span-2">
-                <AirportMap airportCode={data.airport} activeRunways={activeRunways} />
+                <AirportMap airportCode={data.airport} activeRunways={activeRunways} windData={windData} />
               </div>
 
               {/* Arrival ATIS */}
